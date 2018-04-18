@@ -1,12 +1,32 @@
-*.class
+# sbt
+# (may want to keep parts of 'project')
+bin/
+project/
+target/
+build/
+
+# eclipse
+build
+.classpath
+.project
+.settings
+.worksheet
+
+# intellij idea
 *.log
-/.idea/
-/.idea_modules/
-target
-/project/typesafe.properties
-/project/activator-*
-/logs/
-/RUNNING_PID
 *.iml
+*.ipr
+*.iws
+.idea
+
+# mac
 .DS_Store
-.sbtserver*
+
+# other?
+.history
+.scala_dependencies
+.cache
+.cache-main
+
+#general
+*.class
