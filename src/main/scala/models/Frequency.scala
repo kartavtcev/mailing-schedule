@@ -1,6 +1,19 @@
 package models
 
+import java.time.LocalDate
+
 sealed trait Frequency
+object Frequency {
+  def filterDates (frequency: Frequency) (dates : List[LocalDate]) : List[LocalDate] = frequency match {
+    case MonthDate(date) => dates.filter(_.getDayOfMonth == date)
+    case WeekDays(days) =>
+      dates.filter(date =>
+        days.contains( (d : models.WeekDay) =>
+          d.day.equalsIgnoreCase(date.getDayOfWeek.name)))
+    case EveryDay => dates
+    case Never => List.empty
+  }
+}
 
 case class MonthDate(date : Int) extends Frequency
 object MonthDate {
@@ -10,6 +23,6 @@ object MonthDate {
   }
 }
 
-case class WeekDays(days : List[WeekDay]) extends Frequency
+case class WeekDays(days : List[models.WeekDay]) extends Frequency
 object EveryDay extends Frequency
 object Never extends Frequency
