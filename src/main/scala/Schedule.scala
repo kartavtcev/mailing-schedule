@@ -4,7 +4,9 @@ import scala.collection._
 import models._
 
 object Schedule {
-  val forecastDays = 90
+  //val forecastDays = 90
+  val forecastDays = 10
+
   // TODO: start date = (now + 1)
 
   // Is this FUNCTION a PURE one? https://alvinalexander.com/scala/how-to-create-scala-methods-no-side-effects-pure-functions
@@ -20,12 +22,12 @@ object Schedule {
     // Schedule would be updated per each client DB update.
     // So, algorithm should iterate through customers once (+ Nothing skips current customer), and all dates in parallel per client.
 
-    val dates = (0 to forecastDays) map (startDate.plusDays(_)) toList
+    val dates = (1 to forecastDays) map (startDate.plusDays(_)) toList
 
     // mutable map is not cool in purely functional way, but memory efficient (no dates duplicates)
     // CONCURRENT:
     // "As a general heuristic, speed-ups tend to be noticeable when the size of the collection is large, typically several thousand elements."
-    // If CONCURRENT collection is not enough, use Akka actors / Futures.
+    // If CONCURRENT collection is not enough, use Akka actors / Futures (Future / .par can be used to build immutable pipelines).
     val datesMap : concurrent.Map[LocalDate, List[Client]] = concurrent.TrieMap(dates map ((_, List[Client]())) : _*)
 
     clientFreqs.par foreach  { cf =>     // .par is CONCURRENT
