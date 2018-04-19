@@ -1,6 +1,6 @@
 package models
 
-// TODO: can be replaced with java.time.DayOfWeek
+// TODO: can be replaced with java.time.DayOfWeek ,  but ... i did some custom logic here, so it's convenient
 
 sealed abstract class WeekDay(val day: String) {
   override def toString: String = day.substring(0, 3)

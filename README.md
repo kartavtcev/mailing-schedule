@@ -10,3 +10,4 @@ Design ideas:
 
 Scala programming language  
 IntelliJ IDEA IDE  
+Code with lots of comments is not a good practice for production, but is an effective way to communicate in demo.   
