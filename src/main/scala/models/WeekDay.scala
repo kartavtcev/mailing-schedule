@@ -1,6 +1,8 @@
 package models
 
-sealed abstract class WeekDay(val day: String)
+sealed abstract class WeekDay(val day: String) {
+  override def toString: String = day
+}
 object WeekDay {
   case object Mon extends WeekDay("MON")
   case object Tue extends WeekDay("TUE")
