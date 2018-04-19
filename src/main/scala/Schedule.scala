@@ -27,8 +27,10 @@ object Schedule {
     // .par is PARALLEL (concurrent)
     clientFreqs.par foreach  { cf =>
         Frequency.filterDates(cf.frequency, dates) foreach { date =>
-          val list = datesMap.get(date)
-          datesMap.updated(date, list :: List(cf.client))
+          synchronized {  // make sure Value read + write are atomic per Key
+            val list = datesMap.get(date)
+            datesMap.updated(date, list :: List(cf.client))
+          }
         }
     }
     // sort clients after PARALLEL (concurrent)
