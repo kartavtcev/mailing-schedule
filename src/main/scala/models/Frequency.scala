@@ -2,9 +2,8 @@ package models
 
 import java.time.LocalDate
 
-sealed trait Frequency
-object Frequency {
-  def filterDates (frequency: Frequency, dates : List[LocalDate]) : List[LocalDate] = frequency match {
+sealed trait Frequency {
+  def filterDates (dates : List[LocalDate]) : List[LocalDate] = this match {
     case MonthDate(date) => dates.filter(_.getDayOfMonth == date)
     case WeekDays(days) =>
       dates.filter(date =>
@@ -12,6 +11,7 @@ object Frequency {
           d.day.equalsIgnoreCase(date.getDayOfWeek.name))) // if custom WeekDay is to be replaced with DayOfWeek, may be an optimization
     case EveryDay => dates
     case Never => List.empty
+    // pattern matching above is exhaustive, so no need for "case _ => ..."
   }
 }
 

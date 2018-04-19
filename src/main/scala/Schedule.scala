@@ -15,7 +15,7 @@ object Schedule {
 
     val dates = (0 to forecastDays) map (startDate.plusDays(_)) toList
 
-    // mutable map is not cool, but memory efficient & easy to read code + PARALLEL (concurrent)
+    // mutable map is not cool in a purely functional way, but memory efficient & easy to read code + PARALLEL (concurrent)
     // https://stackoverflow.com/questions/5042878/how-can-i-convert-immutable-map-to-mutable-map-in-scala
 
     // Why parallel collection choice? Any speed improvement? :
@@ -26,8 +26,8 @@ object Schedule {
 
     // .par is PARALLEL (concurrent)
     clientFreqs.par foreach  { cf =>
-        Frequency.filterDates(cf.frequency, dates) foreach { date =>
-          synchronized {  // make sure Value read + write are atomic per Key
+      cf.frequency.filterDates(dates) foreach { date =>
+          synchronized {  // make sure Value read + write are atomic per Key // https://issues.scala-lang.org/browse/SI-7943
             val list = datesMap.get(date)
             datesMap.updated(date, list :: List(cf.client))
           }
