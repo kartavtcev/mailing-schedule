@@ -4,10 +4,7 @@ import scala.collection._
 import models._
 
 object Schedule {
-  //val forecastDays = 90
-  val forecastDays = 10
-
-  // TODO: start date = (now + 1)
+  val forecastDays = 90
 
   // Is this FUNCTION a PURE one? https://alvinalexander.com/scala/how-to-create-scala-methods-no-side-effects-pure-functions
   // startDate is external parameter
@@ -31,12 +28,12 @@ object Schedule {
     val datesMap : concurrent.Map[LocalDate, List[Client]] = concurrent.TrieMap(dates map ((_, Nil)) : _*)
 
     clientFreqs.par foreach  { cf =>     // .par is CONCURRENT
-    cf.frequency.filterDates(dates) foreach { date =>
+      cf.frequency.filterDates(dates) foreach { date =>
           synchronized {  // make sure Value read + write are atomic per Key // https://issues.scala-lang.org/browse/SI-7943
             val list = datesMap.getOrElse(date, Nil)
             datesMap.update(date, list ::: List(cf.client))
           }
-        }
+      }
     }
     // sort dates, clients after CONCURRENT, as we must return same result (incl. order) to be Referential Transparent
     (datesMap map { case(k,v) =>

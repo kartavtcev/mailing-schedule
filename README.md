@@ -10,4 +10,5 @@ Design ideas:
 
 Scala programming language  
 IntelliJ IDEA IDE  
+A few unit tests examples with ScalaTest.  
 Code with lots of comments is not a good practice for production, but is an effective way to communicate in demo.   

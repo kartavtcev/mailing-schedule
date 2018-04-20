@@ -3,7 +3,6 @@ import java.time.LocalDate
 import models._
 
 object ScheduleApp extends App {
-  //println("Hello World!")
 
   val client1 = new Client("A")
   val cf1 = ClientWithFrequency(client1, EveryDay)
@@ -13,6 +12,8 @@ object ScheduleApp extends App {
 
   val client3 = new Client("C")
   val cf3 = ClientWithFrequency(client3, WeekDays(List(WeekDay("Tuesday"), WeekDay("Friday"))))
+
+  //val startDate = LocalDate.parse("01-April-2018", DateTimeFormatter.ofPattern("dd-MMMM-yyyy")).minusDays()
 
   Schedule.build(List(cf1, cf2, cf3), LocalDate.now) foreach { println(_) }
 }

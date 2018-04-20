@@ -7,8 +7,8 @@ sealed trait Frequency {
     case MonthDate(date) => dates.filter(_.getDayOfMonth == date)
     case WeekDays(days) =>
       dates.filter(date =>
-        days.contains( (d : models.WeekDay) =>
-          d.day.equalsIgnoreCase(date.getDayOfWeek.name))) // if custom WeekDay is to be replaced with DayOfWeek, may be an optimization
+        days.filter( (d : models.WeekDay) =>
+          d.day.equalsIgnoreCase(date.getDayOfWeek.name)).length == 1) // if custom WeekDay is to be replaced with DayOfWeek, may be an optimization
     case EveryDay => dates
     case Never => List.empty
     // pattern matching above is exhaustive, so no need for "case _ => ..."
