@@ -12,7 +12,6 @@ object ScheduleApp extends App {
     @tailrec
     def reread(xs: List[String]): List[String] = {
       val s = StdIn.readLine()
-      println(s)
       if (s.isEmpty() ) xs else reread(s +: xs)
     }
 
