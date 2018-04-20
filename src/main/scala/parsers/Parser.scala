@@ -8,7 +8,7 @@ object Parser {
 
   def tryParseInputLine(input: String) : Option[ClientWithFrequency] = {
     val sp = input.split("\\s+")
-    if(sp.length < 2) return None // return is required here, exception is thrown otherwise
+    if(sp.length < 2) return None // return is required here, exception is thrown below otherwise
 
     val client = new Client(sp(0))
     val frequency : Option[Frequency] = sp(1).toUpperCase match {
