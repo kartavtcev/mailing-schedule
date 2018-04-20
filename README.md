@@ -12,3 +12,4 @@ Scala programming language
 IntelliJ IDEA IDE  
 A few unit tests examples with ScalaTest, incl. example input/output correctness check.   
 Code with lots of comments is a bad practice for production, but is an effective way to communicate in demo.   
+To fix "silent incorrect input skips", could be used Either(Left, Right) monad, instead of Option(Some, None)   
