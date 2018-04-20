@@ -28,17 +28,19 @@ object Schedule {
     // CONCURRENT:
     // "As a general heuristic, speed-ups tend to be noticeable when the size of the collection is large, typically several thousand elements."
     // If CONCURRENT collection is not enough, use Akka actors / Futures (Future / .par can be used to build immutable pipelines).
-    val datesMap : concurrent.Map[LocalDate, List[Client]] = concurrent.TrieMap(dates map ((_, List[Client]())) : _*)
+    val datesMap : concurrent.Map[LocalDate, List[Client]] = concurrent.TrieMap(dates map ((_, Nil)) : _*)
 
     clientFreqs.par foreach  { cf =>     // .par is CONCURRENT
     cf.frequency.filterDates(dates) foreach { date =>
           synchronized {  // make sure Value read + write are atomic per Key // https://issues.scala-lang.org/browse/SI-7943
-            val list = datesMap.get(date)
-            datesMap.updated(date, list :: List(cf.client))
+            val list = datesMap.getOrElse(date, Nil)
+            datesMap.update(date, list ::: List(cf.client))
           }
         }
     }
-    // sort clients after CONCURRENT, as we must return same result (incl. order) to be Referential Transparent
-    datesMap map { case(k,v) => new ClientsPerDate(WeekDay(k.getDayOfWeek.name), k, v.sortWith(_.name < _.name)) } toList
+    // sort dates, clients after CONCURRENT, as we must return same result (incl. order) to be Referential Transparent
+    (datesMap map { case(k,v) =>
+                      new ClientsPerDate(WeekDay(k.getDayOfWeek.name), k, v.sortWith(_.name < _.name)) } toList)
+    .sortWith( (_1, _2) => _1.date.isBefore(_2.date))
   }
 }
