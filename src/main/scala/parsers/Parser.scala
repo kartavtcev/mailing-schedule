@@ -23,6 +23,7 @@ object Parser {
         } else None
       case "EVERYDAY" => Some(EveryDay)
       case "NEVER" => Some(Never)
+      case _ => None
     }
     frequency map(ClientWithFrequency(client, _))
   }

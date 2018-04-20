@@ -36,7 +36,7 @@ object ScheduleApp extends App {
   println("Use space as separator of parameters. [] are here to highlight formats, don't input these brackets.")
   println("[FrequencyType] options: MonthDate, WeekDays, EveryDay, Never.")
   println("MonthDate possible parameter: [1-28] integer.")
-  println("WeekDays possible parameters list: [MON MONDAY SUN SUNDAY]")
+  println("WeekDays possible parameters list: [MON MONDAY SUN SUNDAY]. No check for duplicate days.")
   println("Press ENTER on empty string to print schedule & exit.")
   println("Any incorrect input is lost, silently. No check for customers duplicate names. Customer name must be single word.")
   println("Example: CustomerDanielFrank WeekDays MONDAY FRIDAY")
