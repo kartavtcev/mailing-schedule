@@ -34,5 +34,6 @@ class ScheduleSuite extends FunSuite {
       && result(9).clients.contains(client1)
       && result(9).clients.contains(client2)
       && result(9).clients.contains(client3))
+    assert(result.length == 90)
   }
 }
