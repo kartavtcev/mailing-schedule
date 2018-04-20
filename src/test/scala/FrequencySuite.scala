@@ -13,7 +13,7 @@ class FrequencySuite extends FunSuite {
     val tuesdayAnycase = "Tuesday"
     val tuesdayUpperCase = "TUESDAY"
     // ACT
-    val frequencyWeekDays = WeekDays(List(WeekDay(tuesdayAnycase)))
+    val frequencyWeekDays = WeekDays(List(WeekDay(tuesdayAnycase).get))
     // ASSERT
     val result = frequencyWeekDays.filterDates(dates)
     assert(result.length == 2 && result.head.getDayOfWeek.name == tuesdayUpperCase)
@@ -26,9 +26,9 @@ class FrequencySuite extends FunSuite {
     val dates = (0 to forecastDays - 1) map (startDate.plusDays(_)) toList
     val dateOfMonth = 5
     // ACT
-    val frequencyMonthDate = MonthDate(dateOfMonth)
+    val frequencyMonthDate: Option[Frequency] = MonthDate(dateOfMonth) // explicitly, because IntelliJ IDEA highlights incorrectly in red here
     // ASSERT
-    val result = frequencyMonthDate.filterDates(dates)
+    val result = frequencyMonthDate.get.filterDates(dates)
     assert(result.length == 1 && result.head.getDayOfMonth == dateOfMonth)
   }
 }

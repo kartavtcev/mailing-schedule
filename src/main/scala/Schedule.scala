@@ -15,7 +15,7 @@ object Schedule {
   def build(clientFreqs : List[ClientWithFrequency], startDate: LocalDate) : List[ClientsPerDate] = {
 
     // Estimanting computational complexity, becomes clear that: Customers # >> Days #
-    // Because mailing list can have Millions of clients, but it's planned for 1 year or less
+    // Because mailing list can have thousands of clients, but it's planned for 1 year or less
     // Schedule would be updated per each client DB update.
     // So, algorithm should iterate through customers once (+ Nothing skips current customer), and all dates in parallel per client.
 
@@ -37,7 +37,7 @@ object Schedule {
     }
     // sort dates, clients after CONCURRENT, as we must return same result (incl. order) to be Referential Transparent
     (datesMap map { case(k,v) =>
-                      new ClientsPerDate(WeekDay(k.getDayOfWeek.name), k, v.sortWith(_.name < _.name)) } toList)
-    .sortWith( (_1, _2) => _1.date.isBefore(_2.date))
+                      new ClientsPerDate(WeekDay(k.getDayOfWeek.name).get, k, v.sortWith(_.name < _.name)) } toList)
+    .sortWith((_1, _2) => _1.date.isBefore(_2.date))
   }
 }

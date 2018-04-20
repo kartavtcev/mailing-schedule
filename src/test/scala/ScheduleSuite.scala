@@ -11,10 +11,11 @@ class ScheduleSuite extends FunSuite {
     val cf1 = ClientWithFrequency(client1, EveryDay)
 
     val client2 = new Client("B")
-    val cf2 = ClientWithFrequency(client2, MonthDate(10))
+    val frequencyMonthDate: Option[Frequency] = MonthDate(10)  // explicitly, because IntelliJ IDEA highlights incorrectly in red here
+    val cf2 = ClientWithFrequency(client2, frequencyMonthDate.get)
 
     val client3 = new Client("C")
-    val cf3 = ClientWithFrequency(client3, WeekDays(List(WeekDay("Tuesday"), WeekDay("Friday"))))
+    val cf3 = ClientWithFrequency(client3, WeekDays(List(WeekDay("Tuesday").get, WeekDay("Friday").get)))
 
     val startDate = LocalDate.parse("01-April-2018", DateTimeFormatter.ofPattern("dd-MMMM-yyyy")).minusDays(1)
 

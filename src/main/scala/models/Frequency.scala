@@ -8,7 +8,7 @@ sealed trait Frequency {
     case WeekDays(days) =>
       dates.filter(date =>
         days.filter( (d : models.WeekDay) =>
-          d.day.equalsIgnoreCase(date.getDayOfWeek.name)).length == 1) // if custom WeekDay is to be replaced with DayOfWeek, may be an optimization
+          d.day.equalsIgnoreCase(date.getDayOfWeek.name)).length >= 1)
     case EveryDay => dates
     case Never => List.empty
     // pattern matching above is exhaustive, so no need for "case _ => ..."
@@ -18,9 +18,9 @@ sealed trait Frequency {
 case class MonthDate(date : Int) extends Frequency
 
 object MonthDate {
-  def apply(date : Int): MonthDate = date match {
-    case i if(i >= 1 && i <= 28) => new MonthDate(i)  // By terms of the exercise monthly dates range is limited to 28.
-    case _ => throw new IllegalArgumentException(s"Date must be in a range [1-28], instead of: $date")
+  def apply(date : Int): Option[MonthDate] = date match {
+    case i if(i >= 1 && i <= 28) => Some(new MonthDate(i))  // By terms of the exercise monthly dates range is limited to 28.
+    case _ => None
   }
 }
 
